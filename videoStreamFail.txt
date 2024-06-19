@@ -1,0 +1,35 @@
+if the video stream fails 
+and the camera access is denied by hitting the server
+
+It digitally manages the Certificates
+
+Try installing 
+npm i mkcert
+
+Then follow the below steps 
+mkcert create-ca 
+mkcert create-cert
+
+Start back the Server
+
+Then go to your server.js file before configuring app()
+do this changes 
+const key = fs.readFileSync(<Require cert.key>)
+Similarly require crt
+
+Configure the express app 
+
+Then do 
+const secureExpress = https.createServer({key,cert},app)
+
+Make app.listen(5000)
+to 
+secureExpress.listen(5000)
+
+While hitting the server with the browser remember to add 
+https://localhost:5000
+
+(https) is must 
+
+If the error still persists feel free to contact me  - 
+aryan19v@gmail.com
