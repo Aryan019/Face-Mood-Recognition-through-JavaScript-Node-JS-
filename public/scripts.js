@@ -35,7 +35,12 @@ const run = async()=>{
 
     // FacicAL detection with points 
     setInterval(async()=>{
-       let  FaceAIData = await faceapi.detectAllFaces(videoFeedEl).withFaceLandmarks().withFaceDescriptors().withAgeAndGender()
+        let FaceAIData = await faceapi.detectAllFaces(videoFeedEl)
+    .withFaceLandmarks()
+    .withFaceDescriptors()
+    .withAgeAndGender()
+    .withFaceExpressions(); // Add this option
+
         console.log(FaceAIData)
 
            // Drawing on the canvas
@@ -48,6 +53,23 @@ const run = async()=>{
 
     // Getting the boundary box in 
     faceapi.draw.drawDetections(canvas, FaceAIData)
+    faceapi.draw.drawFaceLandmarks(canvas,FaceAIData)
+    faceapi.draw.drawFaceExpressions(canvas,FaceAIData)
+
+
+    // Adding in the gender and age 
+    FaceAIData.forEach(face=> {
+        const { age , gender , genderProbability} = face 
+
+        const genderText = `${gender} - ${Math.round(genderProbability*100)/100*100}`
+        
+        const ageText = `${Math.round(age)} years`
+
+        const textField = new faceapi.draw.DrawTextField([genderText,ageText],face.detection.box.topRight)
+
+        textField.draw(canvas)  
+        console.log("it hitted ")
+    })
 
 
 
