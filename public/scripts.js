@@ -32,11 +32,28 @@ const run = async()=>{
     canvas.width = videoFeedEl.width
 
 
+
     // FacicAL detection with points 
     setInterval(async()=>{
-        let FaceAIData = await faceapi.detectAllFaces(videoFeedEl).withFaceLandmarks().withFaceDescriptors().withAgeAndGender()
+       let  FaceAIData = await faceapi.detectAllFaces(videoFeedEl).withFaceLandmarks().withFaceDescriptors().withAgeAndGender()
         console.log(FaceAIData)
+
+           // Drawing on the canvas
+
+    // Clearing out the canvas
+    canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height)
+
+    // Draw the box Dots
+    FaceAIData = faceapi.resizeResults(FaceAIData,videoFeedEl)
+
+    // Getting the boundary box in 
+    faceapi.draw.drawDetections(canvas, FaceAIData)
+
+
+
     },200)
+
+ 
 }
 
 run()
